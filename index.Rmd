@@ -1,0 +1,6 @@
+---
+title: "Final assignment"
+output: html_document
+---
+
+Include some temporary text/code in the index.Rmd, knit the index.Rmd to index.html and include it in the repository.
