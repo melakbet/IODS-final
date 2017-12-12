@@ -3,4 +3,12 @@ title: "Final assignment"
 output: html_document
 ---
 
+***
+  
+```{r child = "README.Rmd"}
+```
+  
+***
+
 Include some temporary text/code in the index.Rmd, knit the index.Rmd to index.html and include it in the repository.
+
