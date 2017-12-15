@@ -1,0 +1,28 @@
+#Abstract
+#Introduction
+#Material and methods
+##Dataset
+
+The default installation of R comes with many (usually small) datasets. The data sets *__Boston__* analysing in this IODS-final project comes from MASS package. The data was originally published by (Harrison *et al*. 1978) that contains information about the Boston house-price data and later the data was also published by (Belsley *et al*. 1980). The Boston Housing Dataset has 506 observations and 14 features/variables consists of price of houses in various places in Boston. Alongside with price, the dataset also provide information such as Crime (*CRIM*), areas of non-retail business in the town (*INDUS*), the age of people who own the house (*AGE*), and there are many other attributes. Details about the datasets can be available in these two links [[1]](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html) and [[2]](http://lib.stat.cmu.edu/datasets/boston).
+
+
+<br/>
+
+##Data Wrangling
+##Data Analysis
+```{r, warning=FALSE,message=FALSE}
+library(GGally)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(MASS)
+library(corrplot)
+library(ggpubr)
+library(magrittr)
+library(boot)
+library(knitr)
+library(kableExtra)
+```
+#Results
+#Conclusion and discussion
+

@@ -1,14 +1,58 @@
 ---
-title: "Final assignment"
-output: html_document
+title: "IODS final assignment"
+author: 
+- Melak Weldenegodguad 
+- melak.weldenegodguad@uef.fi
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_document:
+    theme: simplex
+    toc: true
+    highlight: kate
+    df_print: paged
+    toc_depth: 3
+    fig_caption: true
+    fig_width: 6
+    fig_height: 4
+    code_folding: hide
+    toc_float: 
+      collapse: false
+      smooth_scroll: false
+
 ---
+<style type="text/css">
+/* Whole document: */
+body{
+  font-family: Helvetica;
+  font-size: 12pt;
+}
+/* Headers */
+h1 {
+  font-size: 145%;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 120%;
+  font-weight: bold;
+}
+</style>
+
 
 ***
   
-```{r child = "README.Rmd"}
+```{r child = "IODS-final.Rmd"}
 ```
   
 ***
 
 Include some temporary text/code in the index.Rmd, knit the index.Rmd to index.html and include it in the repository.
 
+```{r}
+mtcars
+```
+
+```{r plot1, echo=FALSE, warning=FALSE, message=FALSE}
+x <- "some_r_code"
+print(x)
+```
