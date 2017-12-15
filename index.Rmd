@@ -26,6 +26,10 @@ body{
   font-family: Helvetica;
   font-size: 12pt;
 }
+td{
+  font-family: Helvetica;
+  font-size: 10pt;
+}
 /* Headers */
 h1 {
   font-size: 145%;
@@ -48,9 +52,6 @@ h2 {
 
 Include some temporary text/code in the index.Rmd, knit the index.Rmd to index.html and include it in the repository.
 
-```{r}
-mtcars
-```
 
 ```{r plot1, echo=FALSE, warning=FALSE, message=FALSE}
 x <- "some_r_code"

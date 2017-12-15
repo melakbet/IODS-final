@@ -10,7 +10,7 @@ The default installation of R comes with many (usually small) datasets. The data
 
 ##Data Wrangling
 ##Data Analysis
-```{r, warning=FALSE,message=FALSE}
+```{r, warning=FALSE,message=FALSE,cols.print=14, rows.print=6}
 library(GGally)
 library(ggplot2)
 library(tidyr)
@@ -22,7 +22,11 @@ library(magrittr)
 library(boot)
 library(knitr)
 library(kableExtra)
+library(MASS)
+data("Boston")
+head(Boston)
 ```
+
 #Results
 #Conclusion and discussion
 
