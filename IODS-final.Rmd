@@ -50,7 +50,7 @@ Boston<- read.table("Data/Boston_IODS.csv")
 data.frame(variable = names(Boston),
            classe = sapply(Boston, typeof),
            first_values = sapply(Boston, function(x) paste0(round(head(x,2),digit=3),  collapse = ", ")),
-           row.names = NULL) %>%  kable(.,"html", caption="Boston structure table") %>%   kable_styling(bootstrap_options ="striped",  full_width = F, position = "float_left") %>% column_spec(1:1, bold = T) %>% row_spec(0:0, bold = T,  color = "white", background = "#D7261E")
+           row.names = NULL) %>%  kable(.,"html", caption="Table 1. Boston structure table") %>%   kable_styling(bootstrap_options ="striped",  full_width = F, position = "float_left") %>% column_spec(1:1, bold = T) %>% row_spec(0:0, bold = T,  color = "white", background = "#D7261E")
 
 ```
 <br/>
@@ -94,7 +94,7 @@ MEDV        median value of owner-occupied homes in USD 1000's
 ```{r, warning=FALSE,message=FALSE}
 
 
-kable(head(Boston),"html", caption="The first 6 data of Boston House") %>%   kable_styling(bootstrap_options ="condensed", full_width = F, position = "left") %>% column_spec(1:1) %>% row_spec(0, bold = T,  color = "white", background = "#D7261E")
+kable(head(Boston),"html", caption="Table 2. The first 6 data of Boston House") %>%   kable_styling(bootstrap_options ="condensed", full_width = F, position = "left") %>% column_spec(1:1) %>% row_spec(0, bold = T,  color = "white", background = "#D7261E")
 
 
 #Summarry Statistics
@@ -102,7 +102,7 @@ kable(head(Boston),"html", caption="The first 6 data of Boston House") %>%   kab
 
 Boston_summary= do.call(cbind, lapply(Boston, summary))
 
-kable(round(Boston_summary, digits = 3),"html", caption="Statistics summary of the Boston dataset") %>%   kable_styling(bootstrap_options ="condensed",  full_width = F, position = "left") %>% column_spec(1:1, bold = T,color = "white", background = "#D7261E") %>% row_spec(0, bold = T,  color = "white", background = "#D7261E")
+kable(round(Boston_summary, digits = 3),"html", caption="Table 3. Statistics summary of the Boston dataset") %>%   kable_styling(bootstrap_options ="condensed",  full_width = F, position = "left") %>% column_spec(1:1, bold = T,color = "white", background = "#D7261E") %>% row_spec(0, bold = T,  color = "white", background = "#D7261E")
 
 
 ```
@@ -112,7 +112,7 @@ kable(round(Boston_summary, digits = 3),"html", caption="Statistics summary of t
 ```{r, fig.width=13, fig.height=10}
 ggcorr(Boston,  label = T,  low = "red3", high = "green3", 
        label_round = 2 ,palette = "RdBu", name = "Correlation Scale", label_alpha = T, hjust = 0.75) +
-  ggtitle(label = "Correlation Plot") +
+  ggtitle(label = "Figure 1.  Correlation Plot") +
   theme(plot.title = element_text(size = 16, face = "bold", hjust = 0.5))
 ```
 
@@ -155,7 +155,7 @@ my_model3<- lm(CRIM ~  DIS + MUSTA + LSTAT + MEDV , data = Boston)
 
 
 
-sjt.lm(my_model1,my_model2,my_model3,show.header = TRUE,string.dv = "Model-comparison", string.est="Estimate", string.ci = "Conf. Int.", string.p = "p-value",  depvar.labels = c("Model 1", "Model 2", "Model 3"))
+sjt.lm(my_model1,my_model2,my_model3,show.header = TRUE,string.dv = "Table 4. Model-comparison", string.est="Estimate", string.ci = "Conf. Int.", string.p = "p-value",  depvar.labels = c("Model 1", "Model 2", "Model 3"))
 
 
 ```
@@ -165,7 +165,7 @@ sjt.lm(my_model1,my_model2,my_model3,show.header = TRUE,string.dv = "Model-compa
 The assumptions behind in linear regression model are the errors are normally distributed, aren’t correlated and have constant variance (the size of a given error doesn’t depend on the explanatory variables). For model validation and also to examine the linear regression model assumptions, three different diagnostic plots are generated as shown in the Figure 2 blow. In this analysis, I used **Model 3** to generate the diagnostic plots. The QQ-plot used to evaluate the normality of the model and as shown in the Figure 2 below, the QQ-plot revealed that most of the points fit the line, except in the in end of line, where there is more outliers. Similarly, residual versus fitted model showed that the errors are not dependent on the attitude variable. Moreover, we can see that even two points (towards the right) have minor influence to the assumption in case of residual vs leverage model. Thus, Based on the diagnostic plots, the model assumptions  are more or less valid, meaning the test results are valid.
 
 
-
+Figure 2. Diagnostic plots
 ```{r, fig.width=11, fig.height=10}
 par(mfrow= c(2,2))
 plot(my_model3, which=c(1:2,5))
