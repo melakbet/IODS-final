@@ -1,0 +1,182 @@
+#Abstract
+
+The Boston Housing Dataset contains the housing price in various suburbs of Boston in 1970's. It contains 506 observations on 14 variables.  The aim of this final project is to explore a variable relationship in the dataset and to build a linear or logistic regression model. In this analysis,  I chose to build a linear regression model that predict per capita crime rate by town (*__CRIM__*) using other four predictor variables. I chose *__CRIM__* as the response variable $y$ and a subset of the original variable as predictor (*__“DIS”, “MEDV”, “MUSTA” and “ISTAT”__*). The linear regression model constructed using my interest of variables are significantly contributed to increase and decrease the per capita crime rate by town and the model explained 29.2% of the variance. 
+
+
+#Introduction
+
+The Boston house-price data contains information related to housing in the various region of Boston. In this datasets, there are several interesting association between variables to examine. My chose of interest is to explore the relationships between per capita crime rate by town  and factors that either increases or decreases the per capita crime rate by town. To examine the relationships between per capita crime rate by town and other factors, I chose four variables (*__“DIS”, “MEDV”, “BLACK” and “ISTAT”__*). My hypothesis about how each variable  is related to the per capita crime rate by town are shown below:
+
+1. As the weighted  distances to five Boston employment centers (*__DIS__*) increases the *__CRIM__* decreases.
+2. *__CRIM__* decrease as the median value of owner-occupied homes in USD 1000's (*__MEDV__*) increase. 
+3. *__CRIM__* increase as the calculated value i.e 1000(B - 0.63)^2 (*__MUSTA__*) increase, where B is the proportion of blacks by town.
+4. *__CRIM__* increase as the percentage of lower status of the population (*__LSTAT__*) increase. 
+
+#Material and methods
+##Boston Housing Dataset
+
+The default installation of R comes with many (usually small) datasets. The *__Boston__* dataset analyzing in this IODS-final project comes from MASS package. The data was originally published by (Harrison *et al*. 1978) that contains information about the Boston house-price data and later the data was also published by (Belsley *et al*. 1980). The Boston Housing Dataset has 506 observations and 14 features/variables. The rows represent suburbs of Boston. The variables represent attributes of suburb which can be used to predict the housing values.
+The column variable includes information about the price of houses in various places in Boston. In addition to the price, the column also provide information such as Crime (*CRIM*), areas of non-retail business in the town (*INDUS*), the age of people who own the house (*AGE*), and there are many other attributes. Details about the datasets can be available in these two links [[1]](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html) and [[2]](http://lib.stat.cmu.edu/datasets/boston).The structure of the Boston dataset and descriptions of each of the 14 variables (Table 1), the first 6 data (Table 2) and the summary (Table 3)  are shown below.
+
+```{r,echo=FALSE, warning=FALSE,message=FALSE}
+library(GGally)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(MASS)
+library(corrplot)
+library(ggpubr)
+library(magrittr)
+library(boot)
+library(knitr)
+library(kableExtra)
+library(xtable)
+library(pander)
+library(ggcorrplot)
+library(stargazer)
+library(sjPlot)
+#load the boston dataset 
+
+```
+
+```{r,warning=FALSE,message=FALSE}
+#data(Boston)
+Boston<- read.table("Data/Boston_IODS.csv")
+
+
+
+
+data.frame(variable = names(Boston),
+           classe = sapply(Boston, typeof),
+           first_values = sapply(Boston, function(x) paste0(round(head(x,2),digit=3),  collapse = ", ")),
+           row.names = NULL) %>%  kable(.,"html", caption="Table 1. Boston structure table") %>%   kable_styling(bootstrap_options ="striped",  full_width = F, position = "float_left") %>% column_spec(1:1, bold = T) %>% row_spec(0:0, bold = T,  color = "white", background = "#D7261E")
+
+```
+<br/>
+
+<br/>
+
+
+```
+
+Variable    Description   
+------------------------------------------
+CRIM        per capita crime rate by town
+ZN	        proportion of residential zoned for lots over 25K sq.ft
+INDUS       proportion of non-retail business acres per town
+CHAS        Charles River dummy variable(1 bounds river 0 otherwise)
+NOX         nitric oxides concentration (parts per 10 million)
+RM          average number of rooms per dwelling
+AGE         proportion of owner-occupied units built prior to 1940
+DIS         weighted distances to five Boston employment centres
+RAD         index of accessibility to radial highways
+TAX         full-value property-tax rate per USD 10,000
+PTRATIO     pupil-teacher ratio by town
+MUSTA       1000(B - 0.63)^2, B is the proportion of blacks by town
+LSTAT       percentage of lower status of the population
+MEDV        median value of owner-occupied homes in USD 1000's
+
+
+```
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+
+```{r, warning=FALSE,message=FALSE}
+
+
+kable(head(Boston),"html", caption="Tablel 2. The first 6 data of Boston House") %>%   kable_styling(bootstrap_options ="condensed", full_width = F, position = "left") %>% column_spec(1:1) %>% row_spec(0, bold = T,  color = "white", background = "#D7261E")
+
+
+#Summarry Statistics
+
+
+Boston_summary= do.call(cbind, lapply(Boston, summary))
+
+kable(round(Boston_summary, digits = 3),"html", caption="Table 3. Statistics summary of the Boston dataset") %>%   kable_styling(bootstrap_options ="condensed",  full_width = F, position = "left") %>% column_spec(1:1, bold = T,color = "white", background = "#D7261E") %>% row_spec(0, bold = T,  color = "white", background = "#D7261E")
+
+
+```
+
+<br/>
+
+Examining all the features in the correlation matrix together with  graph (as seen in Figure 1) gives much quicker impression to see where the correlation is high and low. 
+For example, The above correlation graph shows that *TAX* and *RAD* are highly correlated variables, whereas *DIS*  and *AGE* are the most negatively correlated variables. We can also see high correlations between *MEDV* and *LSTAT* and also *MEDV* and *RM*. *LSTAT* is negatively correlated to *MEDV*, whereas *RM* is positively correlated, which could be expected as the higher value areas would typically have larger dwellings. Moreover, lowest correlation value is revealed between *CHAS* and *RAD*.
+
+<br/>
+
+```{r, fig.width=13, fig.height=10}
+ggcorr(Boston,  label = T,  low = "red3", high = "green3", 
+       label_round = 2 ,palette = "RdBu", name = "Correlation Scale", label_alpha = T, hjust = 0.75) +
+  ggtitle(label = "Figure 1. Correlation Plot") +
+  theme(plot.title = element_text(size = 16, face = "bold", hjust = 0.5))
+```
+
+<br/>
+
+
+
+##Data Wrangling
+
+In real life analysis most of the datasets are  often needs data wrangling methods.The raw data I chose for this final project is Boston which come with the MASS package. The Boston dataset is some what clean enough so that I haven't done major data wrangling but to make my analysis easy I changed the column names (see the data description). The R script for data wrangling available in this [link](https://github.com/melakbet/IODS-final/blob/master/Data/Data_warngling.R).
+
+
+##Data Analysis
+
+Using the R function `lm`, I fitted three  model for the response variable CRIM ($y$). I first constructed the linear regression model using all explanatory variables (**Model 1**). When I used all the explanatory variable, the resulted model explaining 45.4% of the variance of per capita crime rate by town.
+
+
+The second model (**Model 2**),  I constructed using subset of explanatory variables of the original Boston dataset. The explanatory variable chosen based on (absolute) correlation value (the variables that had strongest correlation with crim, correlation plot) and the significant variable in the first model (**Model 1**). The explanatory variable chosen are RAD= 0.63,  MEDV= -0.39, MUSTA=-0.39 and DIS=-0.38.  Model 2 revealed, all the selected variables except *DIS*  are statistically significant and the resulted model explain 43% of the variance of per capita crime rate by town.
+
+ 
+
+The third model (**Model 3**), constructed based on my assumption as it is explained in the introduction part. As shown in Model 2,  all variables  are statistically significant and the resulted model explain 29.2% of the variance of per capita crime rate by town. 
+
+As shown in the Table 4 below,  of all the three models, **Model 1** explaining the highest variance of per capita crime rate by town. For further analysis, I chose model constructed based on my assumptions variable **Model 3**. As shown in the Table 4, all the selected variables are statistically significant and used this examined in Model validation weather it meets the linear regression model assumptions.
+
+
+
+```{r,fig.align="left", results = 'asis', warning=FALSE, message=FALSE}
+
+my_model1 <- lm(CRIM ~ ., data = Boston)
+
+
+my_model2<- lm(CRIM ~  DIS + RAD + MUSTA + MEDV , data = Boston)
+
+my_model3<- lm(CRIM ~  DIS + MUSTA + LSTAT + MEDV , data = Boston)
+#summary(my_model2)
+
+#summary(my_model3)
+
+
+
+sjt.lm(my_model1,my_model2,my_model3,show.header = TRUE,string.dv = "Table 4. Model-comparison", string.est="Estimate", string.ci = "Conf. Int.", string.p = "p-value",  depvar.labels = c("Model 1", "Model 2", "Model 3"))
+
+
+```
+
+##Model validation
+
+The assumptions behind in linear regression model are the errors are normally distributed, aren’t correlated and have constant variance (the size of a given error doesn’t depend on the explanatory variables). For model validation and also to examine the linear regression model assumptions, three different diagnostic plots are generated as shown in the Figure 2 blow. In this analysis, I used **Model 3** to generate the diagnostic plots. The QQ-plot used to evaluate the normality of the model and as shown in the Figure 2 below, the QQ-plot revealed that most of the points fit the line, except in the in end of line, where there is more outliers. Similarly, residual versus fitted model showed that the errors are not dependent on the attitude variable. Moreover, we can see that even two points (towards the right) have minor influence to the assumption in case of residual vs leverage model. Thus, Based on the diagnostic plots, the model assumptions  are more or less valid, meaning the test results are valid.
+
+
+Figure 2. Diagnostic plots
+```{r, fig.width=11, fig.height=10}
+par(mfrow= c(2,2))
+plot(my_model3, which=c(1:2,5))
+```
+
+#Conclusion and discussion
+
+
+As shown in Model 2 (the model based on my assumption) above, all the chosen factors  are significantly (P<0.05) contribute to per capita crime rate by town:  the weighted  distances to five Boston employment centers, median value of owner-occupied homes in USD 1000's, the calculated value i.e $1000(B - 0.63)^2$ and the percentage of lower status of the population, all these variables explaining 29.2% of of the variance of per capita crime rate by town. The variable MUSTA  has the lowest p-value (1.77e-07) suggesting a statistically significant association of MUSTA Braille and per capita crime rate by town. The negative coefficient for MUSTA predictor suggests that all other variables being equal, a unit increase in MUSTA variable decrease the per capita crime rate by town by 0.02. This is contradiction to my assumption that the  **CRIM** increase as **MUSTA** variable increase. The variable **DIS** has also lowest p-value (2.08e-05), the negative coefficient for **DIS** suggests that all other variables being equal, a unit increase in the mean  distances to five Boston employment centers decrease the  per capita crime rate by town by 0.78. This is similar to my assumption. The variables **LSTAT** and **MEDV** revealed p-value (0.00451) and (0.02029), respectively and both variables meets my assumption. A unit increase in the percentage of lower status of the population increase the  per capita crime rate by town by 0.22. A unit increase in the median value of owner-occupied homes in USD 1000’s decrease the  per capita crime rate by town by 0.12. 
+
+

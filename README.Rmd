@@ -1,5 +1,8 @@
 
+
 # Final assignment
 
 
-Description of the repository is coming soon
+IODS course final project using Boston Housing Dataset
+
+This is a repostory that contains the files related to Open Data Science Course final project. The final project page can be found in this [link](https://melakbet.github.io/IODS-final/)
