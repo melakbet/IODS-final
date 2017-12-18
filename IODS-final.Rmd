@@ -1,4 +1,5 @@
 #Abstract
+<<<<<<< HEAD
 
 The Boston Housing Dataset contains the housing price in various suburbs of Boston in 1970's. It contains 506 observations on 14 variables.  The aim of this final project is to explore a variable relationship in the dataset and to build a linear or logistic regression model. In this analysis,  I chose to build a linear regression model that predict per capita crime rate by town (*__CRIM__*) using other four predictor variables. I chose *__CRIM__* as the response variable $y$ and a subset of the original variable as predictor (*__“DIS”, “MEDV”, “MUSTA” and “ISTAT”__*). The linear regression model constructed using my interest of variables are significantly contributed to increase and decrease the per capita crime rate by town and the model explained 29.2% of the variance. 
 
@@ -19,6 +20,20 @@ The default installation of R comes with many (usually small) datasets. The *__B
 The column variable includes information about the price of houses in various places in Boston. In addition to the price, the column also provide information such as Crime (*CRIM*), areas of non-retail business in the town (*INDUS*), the age of people who own the house (*AGE*), and there are many other attributes. Details about the datasets can be available in these two links [[1]](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html) and [[2]](http://lib.stat.cmu.edu/datasets/boston).The structure of the Boston dataset and descriptions of each of the 14 variables (Table 1), the first 6 data (Table 2) and the summary (Table 3)  are shown below.
 
 ```{r,echo=FALSE, warning=FALSE,message=FALSE}
+=======
+#Introduction
+#Material and methods
+##Dataset
+
+The default installation of R comes with many (usually small) datasets. The data sets *__Boston__* analysing in this IODS-final project comes from MASS package. The data was originally published by (Harrison *et al*. 1978) that contains information about the Boston house-price data and later the data was also published by (Belsley *et al*. 1980). The Boston Housing Dataset has 506 observations and 14 features/variables consists of price of houses in various places in Boston. Alongside with price, the dataset also provide information such as Crime (*CRIM*), areas of non-retail business in the town (*INDUS*), the age of people who own the house (*AGE*), and there are many other attributes. Details about the datasets can be available in these two links [[1]](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html) and [[2]](http://lib.stat.cmu.edu/datasets/boston).
+
+
+<br/>
+
+##Data Wrangling
+##Data Analysis
+```{r, warning=FALSE,message=FALSE,cols.print=14, rows.print=6}
+>>>>>>> 745577cfc0607a594e9e34f24f67dc0c18395cce
 library(GGally)
 library(ggplot2)
 library(tidyr)
@@ -30,6 +45,7 @@ library(magrittr)
 library(boot)
 library(knitr)
 library(kableExtra)
+<<<<<<< HEAD
 library(xtable)
 library(pander)
 library(ggcorrplot)
@@ -180,3 +196,13 @@ plot(my_model3, which=c(1:2,5))
 As shown in Model 2 (the model based on my assumption) above, all the chosen factors  are significantly (P<0.05) contribute to per capita crime rate by town:  the weighted  distances to five Boston employment centers, median value of owner-occupied homes in USD 1000's, the calculated value i.e $1000(B - 0.63)^2$ and the percentage of lower status of the population, all these variables explaining 29.2% of of the variance of per capita crime rate by town. The variable MUSTA  has the lowest p-value (1.77e-07) suggesting a statistically significant association of MUSTA Braille and per capita crime rate by town. The negative coefficient for MUSTA predictor suggests that all other variables being equal, a unit increase in MUSTA variable decrease the per capita crime rate by town by 0.02. This is contradiction to my assumption that the  **CRIM** increase as **MUSTA** variable increase. The variable **DIS** has also lowest p-value (2.08e-05), the negative coefficient for **DIS** suggests that all other variables being equal, a unit increase in the mean  distances to five Boston employment centers decrease the  per capita crime rate by town by 0.78. This is similar to my assumption. The variables **LSTAT** and **MEDV** revealed p-value (0.00451) and (0.02029), respectively and both variables meets my assumption. A unit increase in the percentage of lower status of the population increase the  per capita crime rate by town by 0.22. A unit increase in the median value of owner-occupied homes in USD 1000’s decrease the  per capita crime rate by town by 0.12. 
 
 
+=======
+library(MASS)
+data("Boston")
+head(Boston)
+```
+
+#Results
+#Conclusion and discussion
+
+>>>>>>> 745577cfc0607a594e9e34f24f67dc0c18395cce
