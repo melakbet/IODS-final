@@ -42,8 +42,8 @@ library(sjPlot)
 ```
 
 ```{r,warning=FALSE,message=FALSE}
-data(Boston)
-names(Boston)
+Boston<- read.table("Data/Boston_IODS.csv")
+
 
 
 
@@ -131,7 +131,7 @@ In real life analysis most of the datasets are  often needs data wrangling metho
 Using the R function `lm`, I fitted three  model for the response variable CRIM ($y$). I first constructed the linear regression model using all explanatory variables (**Model 1**). When I used all the explanatory variable, the resulted model explaining 45.4% of the variance of per capita crime rate by town.
 
 
-The second model (**Model 2**),  I constructed using subset of explanatory variables of the original Boston dataset. The explanatory variable chosen based on (absolute) correlation value (the variables that had strongest correlation with crim, correlation plot) and the significant variable in the first model (**Model 1**). The explanatory variable chosen are RAD= 0.63,  MEDV= -0.39, MUSTA=-0.39 and DIS=-0.38.  Model 2 revealed, all the selected variables except *DIS*  are statistically significant and the resulted model explain 43% of the variance of per capita crime rate by town.
+The second model (**Model 2**),  I constructed using subset of explanatory variables of the original Boston dataset. The explanatory variable chosen based on (absolute) correlation value (the variables that had strongest correlation with CRIM, correlation plot) and the significant variable in the first model (**Model 1**). The explanatory variable chosen are RAD= 0.63,  MEDV= -0.39, MUSTA=-0.39 and DIS=-0.38.  Model 2 revealed, all the selected variables except *DIS*  are statistically significant and the resulted model explain 43% of the variance of per capita crime rate by town.
 
  
 
@@ -143,12 +143,12 @@ As shown in the Table 4 below,  of all the three models, **Model 1** explaining 
 
 ```{r,fig.align="left", results = 'asis', warning=FALSE, message=FALSE}
 
-my_model1 <- lm(crim ~ ., data = Boston)
+my_model1 <- lm(CRIM ~ ., data = Boston)
 
 
-my_model2<- lm(crim ~  dis + rad + black + medv , data = Boston)
+my_model2<- lm(CRIM ~  DIS + RAD + MUSTA + MEDV , data = Boston)
 
-my_model3<- lm(crim ~  dis + black + lstat + medv , data = Boston)
+my_model3<- lm(CRIM ~  DIS + MUSTA + LSTAT + MEDV , data = Boston)
 #summary(my_model2)
 
 #summary(my_model3)
