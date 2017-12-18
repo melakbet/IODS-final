@@ -8,11 +8,7 @@ output:
   rmarkdown::html_document:
     theme: simplex
     toc: true
-<<<<<<< HEAD
     highlight: haddock
-=======
-    highlight: kate
->>>>>>> 745577cfc0607a594e9e34f24f67dc0c18395cce
     df_print: paged
     toc_depth: 3
     fig_caption: true
@@ -28,7 +24,6 @@ output:
 /* Whole document: */
 body{
   font-family: Helvetica;
-<<<<<<< HEAD
   font-size: 133%;
 }
 td{
@@ -38,22 +33,10 @@ td{
 /* Headers */
 h1 {
   font-size: 160%;
-=======
-  font-size: 12pt;
-}
-td{
-  font-family: Helvetica;
-  font-size: 9pt;
-}
-/* Headers */
-h1 {
-  font-size: 145%;
->>>>>>> 745577cfc0607a594e9e34f24f67dc0c18395cce
   font-weight: bold;
 }
 
 h2 {
-<<<<<<< HEAD
   font-size: 135%;
   font-weight: bold;
 }
@@ -63,11 +46,6 @@ h2 {
       font-size: 90%;
     } 
 
-=======
-  font-size: 120%;
-  font-weight: bold;
-}
->>>>>>> 745577cfc0607a594e9e34f24f67dc0c18395cce
 </style>
 
 
@@ -77,15 +55,3 @@ h2 {
 ```
   
 ***
-
-Include some temporary text/code in the index.Rmd, knit the index.Rmd to index.html and include it in the repository.
-
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 745577cfc0607a594e9e34f24f67dc0c18395cce
-```{r plot1, echo=FALSE, warning=FALSE, message=FALSE}
-x <- "some_r_code"
-print(x)
-```
